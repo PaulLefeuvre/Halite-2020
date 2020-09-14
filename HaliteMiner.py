@@ -109,21 +109,24 @@ def agent(obs, config):
 
     # Set actions for each shipyard
     for s in me.shipyards:
-        if(s.next_action == None): # If the shipyard isn't doing something already
-            # Move the ship with the most halite onto it
-            highestShip = [,0]
-            for i in range(4):
-                currentCell = getattr(s.cell, direction[i])
-                if(currentCell.ship != None):
-                    if(currentCell.ship.halite > highestShip[1]):
-                        highestShip[0] = currentCell.ship
-                        highestShip[1] = currentCell.ship.halite
-                        if(i >= 2): # Find which direction it would have to go to get on the shipyard
-                            highestShip[2] = direction[i-2]
-                        else:
-                            highestShip[2] = direction[i+2]
+        # Move the ship with the most halite onto the shipyard
+        highestShip = [,0]
+        for i in range(4):
+            currentCell = getattr(s.cell, direction[i])
+            if(currentCell.ship != None):
+                if(currentCell.ship.halite > highestShip[1]):
+                    highestShip[0] = currentCell.ship
+                    highestShip[1] = currentCell.ship.halite
+                    if(i >= 2): # Find which direction it would have to go to get on the shipyard
+                        highestShip[2] = direction[i-2]
+                    else:
+                        highestShip[2] = direction[i+2]
+        if(highestShip[0] != null): # If there is a ship nearby
             highestShip[0].next_action = getattr(ShipAction, highestShip[2])
-
+            nextPositions.append(s.position)
+        elif(me.halite > (board.step * 10) and len(me.ships) <= 10): # Otherwise and if these conditions fit
+            s.next_action = ShipyardAction.SPAWN # Make a ship!
+            nextPositions.append(s.position)
 
     # Set actions for each ship
     for ship in me.ships:
