@@ -115,8 +115,7 @@ def agent(obs, config):
     # Set actions for each shipyard
     for s in me.shipyards:
         # Move the ship with the most halite onto the shipyard
-        highestShip = []
-        highestShip[1] = 0
+        highestShip = [None, 0]
         for i in range(4):
             currentCell = getattr(s.cell, cellDir[i])
             if(currentCell.ship != None):
@@ -127,7 +126,7 @@ def agent(obs, config):
                         highestShip[2] = actionDir[i-2]
                     else:
                         highestShip[2] = actionDir[i+2]
-        if(highestShip[0] != null): # If there is a ship nearby
+        if(highestShip[0] != None): # If there is a ship nearby
             highestShip[0].next_action = getattr(ShipAction, highestShip[2])
             nextPositions.append(s.position)
         elif(me.halite > (board.step * 10) and len(me.ships) <= 10): # Otherwise and if these conditions fit
@@ -141,7 +140,9 @@ def agent(obs, config):
 
         # If the current spot is worth mining and there is no risk around
         if(ship.next_action == None):
-            if(board.cells[tuple(ship.position)].halite >= 200 and negativeScore[0] == 0 and ship.position not in nextPositions):
+            if(len(me.shipyards) == 0):
+                ship.next_action = ShipAction.CONVERT
+            elif(board.cells[tuple(ship.position)].halite >= 50 and negativeScore[0] == 0 and ship.position not in nextPositions):
                 ship.next_action = None # Mine the Halite
                 nextPositions.append(ship.position)
             elif(ship.halite > 500): # Change this later so that it takes the current turn into account <---------------------------------- (!)
