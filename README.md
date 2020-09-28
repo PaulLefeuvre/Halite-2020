@@ -1,5 +1,5 @@
 # Halite 2020 submissions
-Random code I slapped together in time to submit for the Halite competition going on right now. For the competition itself [see here.] (halite.io)
+Random code I slapped together in time to submit for the Halite competition going on right now. For the competition itself [see here.](https://halite.io/)
 ## Introduction
 Halite is a yearly competition where people worldwide compete in an online machine learning video game, dubbed Halite. Every year, people have to write a program that takes into account all the details on the screen and moves tiny ships and builds shipyards to collect the most halite. Four teams compete at once on one board, with the ability to steal from other ships, destroy people's shipyards, and generally sabotage your enemy's plans. All it takes to win is a good strategy (and a good program).
 ### Strategies
